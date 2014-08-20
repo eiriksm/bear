@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+
+  "name": "Bear. For beer.",
+  "description": "Bear will scrape.",
+  "version": "1.0",
+
+  "permissions": [
+    "tabs",
+    "http://www.ratebeer.com/",
+    "contextMenus"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "icons": {
+    "16": "icon.png"
+  }
+}
