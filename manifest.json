@@ -8,7 +8,8 @@
   "permissions": [
     "tabs",
     "http://www.ratebeer.com/",
-    "contextMenus"
+    "contextMenus",
+    "notifications"
   ],
   "background": {
     "scripts": ["background.js"]
