@@ -3,7 +3,7 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 
 gulp.task('scripts', function() {
-  browserify('./source.js')
+  browserify('./browser.js')
     .require('https')
     .bundle()
     .pipe(source('background.js'))

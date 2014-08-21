@@ -16,16 +16,16 @@
     "url": "https://github.com/eiriksm/bear/issues"
   },
   "homepage": "https://github.com/eiriksm/bear",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "vinyl-source-stream": "^0.1.1",
     "browserify": "^5.10.0",
+    "cheerio": "^0.17.0",
     "coveralls": "^2.11.1",
     "gulp": "^3.8.7",
     "istanbul": "^0.3.0",
     "mocha": "^1.21.4",
     "request": "^2.40.0",
-    "cheerio": "^0.17.0"
+    "should": "^4.0.4",
+    "vinyl-source-stream": "^0.1.1"
   }
 }
