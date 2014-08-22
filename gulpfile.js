@@ -10,4 +10,11 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('.'));
 });
 
+gulp.task('watch', function() {
+
+  // Watch .scss files
+  gulp.watch('*.js', ['scripts']);
+
+});
+
 gulp.task('default', ['scripts']);
