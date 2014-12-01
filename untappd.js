@@ -1,11 +1,13 @@
-var config = require('./config');
+var config;
+try {
+  config = require('./config');
+}
+catch (err) {
+}
 var util = require('util');
 var url = require('url');
 var http = require('http');
 
-if (!config) {
-  throw new Error('NO UNTAPPD CONFIG!');
-}
 module.exports = search;
 
 function search(opts, callback) {

@@ -30,7 +30,7 @@ describe('Extension functionality', function() {
         return;
       }
       data.type.should.equal('basic');
-      data.title.should.equal('Rating');
+      data.title.should.equal('Ratings');
       done();
     };
     checkIfDone();
