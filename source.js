@@ -2,6 +2,8 @@ var cheerio = require('cheerio');
 var http = require('http');
 var url = require('url');
 
+var untappdSearch = require('./untappd');
+
 var c;
 
 module.exports = function(chrome) {
@@ -42,19 +44,54 @@ function getBeer(text) {
           // This is table header. Stupid markup.
           return;
         }
-        var name = $(n).find('td:nth-child(1)').text();
-        var rating = $(n).find('td:nth-child(4)').text();
+        var name = $(n).find('td:nth-child(1)').text().trim();
+        var rating = $(n).find('td:nth-child(4)').text().trim();
         if (!rating) {
           return;
         }
+        var buttons = [
+          {title: 'Check on untappd'}
+        ];
         var opt = {
           type: "basic",
-          title: "Rating",
-          message: name + ' has a rating of ' + rating,
-          iconUrl: "icon256.png"
+          title: "Ratings",
+          iconUrl: "icon256.png",
+          message: name,
+          contextMessage: "Rating: " + rating,
+          buttons: buttons
         };
-        c.notifications.create(Date.now() + 'test', opt, function(){
-          // Not sure what we need this one for.
+        c.notifications.create(Date.now() + Math.random() + 'button', opt, function(id) {
+          var listener = function(notifId, btnIdx) {
+            if (notifId === id) {
+              untappdSearch({name: name}, function(e, r) {
+                if (e) {
+                  alert('Error occured. None found');
+                  return;
+                }
+                if (!r || !r.response || !r.response.beers || !r.response.beers.count) {
+                  alert('None found');
+                  return;
+                }
+                r.response.beers.items.forEach(function(n) {
+                  var nm = n.beer.beer_name;
+                  if (nm.toLowerCase() != name.toLowerCase()) {
+                    return;
+                  }
+                  var s = n.beer.beer_style;
+                  var had = n.have_had;
+                  var beerString = nm + ' (' + s + ')';
+                  if (had) {
+                    alert('You have already had ' + beerString);
+                  }
+                  else {
+                    alert('You have not had ' + beerString);
+                  }
+                });
+              });
+              chrome.notifications.onButtonClicked.removeListener(listener);
+            }
+          };
+          chrome.notifications.onButtonClicked.addListener(listener);
         });
       });
 

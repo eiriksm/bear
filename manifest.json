@@ -8,6 +8,7 @@
   "permissions": [
     "tabs",
     "http://www.ratebeer.com/",
+    "http://api.untappd..com/",
     "contextMenus",
     "notifications"
   ],
