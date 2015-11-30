@@ -1,6 +1,8 @@
+'use strict';
 var cheerio = require('cheerio');
 var http = require('http');
 var url = require('url');
+var util = require('util');
 
 var untappdSearch = require('./untappd');
 
@@ -19,6 +21,16 @@ module.exports = function(chrome) {
   });
 };
 
+function createNotification(text) {
+  var opt = {
+    type: "basic",
+    title: "Ratings",
+    iconUrl: "icon256.png",
+    message: text
+  };
+  c.notifications.create(Date.now() + Math.random() + 'button', opt);
+}
+
 function onSelectionClick(info) {
   // Find selection text.
   var text = info.selectionText;
@@ -27,7 +39,7 @@ function onSelectionClick(info) {
 }
 
 function getBeer(text) {
-  var opts = url.parse('http://www.ratebeer.com/findbeer.asp?BeerName=' + text);
+  var opts = url.parse('http://www.ratebeer.com/findbeer.asp?beername=' + text);
   opts.method = 'POST';
   opts.port = 80;
   opts.scheme  ='http';
@@ -38,9 +50,9 @@ function getBeer(text) {
     });
     res.on('end', function() {
       var $ = cheerio.load(buffer);
-      $('#container .results tr').each(function(i, n) {
-        var header = $(n).attr('bgcolor');
-        if (header && header.length) {
+      $('.col-xl-offset-2 table tr').each(function(i, n) {
+        var hasLinks = $(n).find('a');
+        if (!hasLinks || !hasLinks.length) {
           // This is table header. Stupid markup.
           return;
         }
@@ -65,26 +77,26 @@ function getBeer(text) {
             if (notifId === id) {
               untappdSearch({name: name}, function(e, r) {
                 if (e) {
-                  alert('Error occured. None found');
+                  createNotification('Error occured. None found');
                   return;
                 }
                 if (!r || !r.response || !r.response.beers || !r.response.beers.count) {
-                  alert('None found');
+                  createNotification('None found');
                   return;
                 }
                 r.response.beers.items.forEach(function(n) {
                   var nm = n.beer.beer_name;
-                  if (nm.toLowerCase() != name.toLowerCase()) {
-                    return;
-                  }
                   var s = n.beer.beer_style;
                   var had = n.have_had;
-                  var beerString = nm + ' (' + s + ')';
+                  var beerString = util.format('%s %s (%s)',
+                                               n.brewery.brewery_name,
+                                               nm,
+                                               s);
                   if (had) {
-                    alert('You have already had ' + beerString);
+                    createNotification('You have already had ' + beerString);
                   }
                   else {
-                    alert('You have not had ' + beerString);
+                    createNotification('You have not had ' + beerString);
                   }
                 });
               });
@@ -98,7 +110,7 @@ function getBeer(text) {
     });
   });
   req.on('error', function(e) {
-    console.log('problem with request: ' + e.message);
+    createNotification('problem with request: ' + e.message);
   });
   req.end();
 }

@@ -12,14 +12,12 @@ module.exports = search;
 
 function search(opts, callback) {
   if (!opts.url) {
-    opts.url = 'http://api.untappd.com/v4/search/beer?q=';
+    opts.url = 'https://api.untappd.com/v4/search/beer?q=';
   }
   opts.url += opts.name;
   opts.url += util.format('&client_id=%s&client_secret=%s&access_token=%s', config.client_id, config.client_secret, config.access_token);
   var urlopts = url.parse(opts.url);
   urlopts.method = 'GET';
-  urlopts.port = 80;
-  urlopts.scheme  ='http';
   urlopts.withCredentials = false;
   var req = http.request(urlopts, function(res) {
     var buffer = '';
