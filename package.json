@@ -18,13 +18,13 @@
   "homepage": "https://github.com/eiriksm/bear",
   "dependencies": {},
   "devDependencies": {
-    "browserify": "^5.10.0",
-    "cheerio": "^0.17.0",
-    "coveralls": "^2.11.1",
-    "gulp": "^3.8.7",
-    "istanbul": "^0.3.0",
-    "mocha": "^1.21.4",
-    "should": "^4.0.4",
-    "vinyl-source-stream": "^0.1.1"
+    "browserify": "^12.0.1",
+    "cheerio": "^0.19.0",
+    "coveralls": "^2.11.4",
+    "gulp": "^3.9.0",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4",
+    "should": "^7.1.1",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
