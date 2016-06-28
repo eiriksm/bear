@@ -100,10 +100,10 @@ function getBeer(text) {
                   }
                 });
               });
-              chrome.notifications.onButtonClicked.removeListener(listener);
+              c.notifications.onButtonClicked.removeListener(listener);
             }
           };
-          chrome.notifications.onButtonClicked.addListener(listener);
+          c.notifications.onButtonClicked.addListener(listener);
         });
       });
 
