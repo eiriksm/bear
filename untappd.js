@@ -3,10 +3,11 @@ try {
   config = require('./config');
 }
 catch (err) {
+  console.log(err)
 }
 var util = require('util');
 var url = require('url');
-var http = require('http');
+var https = require('https');
 
 module.exports = search;
 
@@ -19,7 +20,7 @@ function search(opts, callback) {
   var urlopts = url.parse(opts.url);
   urlopts.method = 'GET';
   urlopts.withCredentials = false;
-  var req = http.request(urlopts, function(res) {
+  var req = https.request(urlopts, function(res) {
     var buffer = '';
     res.on('data', function(d) {
       buffer += d;
