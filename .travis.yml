@@ -3,6 +3,8 @@ sudo: false
 node_js:
   - "0.10"
   - "4"
+  - "6"
+  - "node"
 
 after_script:
   - make test-cov
