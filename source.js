@@ -8,41 +8,21 @@ var untappdSearch = require('./untappd');
 
 var c;
 
-module.exports = function(chrome) {
-  if (!c) {
-    c = chrome;
-  }
-  chrome.contextMenus.create({
-    title: 'Search ratebeer',
-    contexts: [
-       "selection"
-    ],
-    onclick: onSelectionClick
-  });
-};
-
 function createNotification(text) {
   var opt = {
-    type: "basic",
-    title: "Ratings",
-    iconUrl: "icon256.png",
+    type: 'basic',
+    title: 'Ratings',
+    iconUrl: 'icon256.png',
     message: text
   };
   c.notifications.create(Date.now() + Math.random() + 'button', opt);
-}
-
-function onSelectionClick(info) {
-  // Find selection text.
-  var text = info.selectionText;
-  // Post request to ratebeer.
-  getBeer(text);
 }
 
 function getBeer(text) {
   var opts = url.parse('http://www.ratebeer.com/findbeer.asp?beername=' + text);
   opts.method = 'POST';
   opts.port = 80;
-  opts.scheme  ='http';
+  opts.scheme = 'http';
   var req = http.request(opts, function(res) {
     var buffer = '';
     res.on('data', function(d) {
@@ -65,15 +45,15 @@ function getBeer(text) {
           {title: 'Check on untappd'}
         ];
         var opt = {
-          type: "basic",
-          title: "Ratings",
-          iconUrl: "icon256.png",
+          type: 'basic',
+          title: 'Ratings',
+          iconUrl: 'icon256.png',
           message: name,
-          contextMessage: "Rating: " + rating,
+          contextMessage: 'Rating: ' + rating,
           buttons: buttons
         };
         c.notifications.create(Date.now() + Math.random() + 'button', opt, function(id) {
-          var listener = function(notifId, btnIdx) {
+          var listener = function(notifId) {
             if (notifId === id) {
               untappdSearch({name: name}, function(e, r) {
                 if (e) {
@@ -84,12 +64,12 @@ function getBeer(text) {
                   createNotification('None found');
                   return;
                 }
-                r.response.beers.items.forEach(function(n) {
-                  var nm = n.beer.beer_name;
-                  var s = n.beer.beer_style;
-                  var had = n.have_had;
+                r.response.beers.items.forEach(function(item) {
+                  var nm = item.beer.beer_name;
+                  var s = item.beer.beer_style;
+                  var had = item.have_had;
                   var beerString = util.format('%s %s (%s)',
-                                               n.brewery.brewery_name,
+                                               item.brewery.brewery_name,
                                                nm,
                                                s);
                   if (had) {
@@ -114,3 +94,23 @@ function getBeer(text) {
   });
   req.end();
 }
+
+function onSelectionClick(info) {
+  // Find selection text.
+  var text = info.selectionText;
+  // Post request to ratebeer.
+  getBeer(text);
+}
+
+module.exports = function(chrome) {
+  if (!c) {
+    c = chrome;
+  }
+  chrome.contextMenus.create({
+    title: 'Search ratebeer',
+    contexts: [
+       'selection'
+    ],
+    onclick: onSelectionClick
+  });
+};

@@ -1,9 +1,10 @@
+'use strict';
 var config;
 try {
   config = require('./config');
 }
 catch (err) {
-  console.log(err)
+  console.log(err);
 }
 var util = require('util');
 var url = require('url');

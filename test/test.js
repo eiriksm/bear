@@ -1,4 +1,5 @@
-var should = require('should');
+'use strict';
+require('should');
 
 var bear = require('../source');
 var cb, data;
@@ -44,17 +45,17 @@ describe('Extension functionality', function() {
     bear(chrome);
     this.timeout(10000);
     cb({selectionText: 'beer'});
-    chrome.notifications.create = function(id, opts, cb) {
+    chrome.notifications.create = function(id, opts, callback) {
       data = opts;
-      cb()
-    }
+      callback();
+    };
     chrome.notifications.onButtonClicked = {};
     chrome.notifications.onButtonClicked.removeListener = function(l) {
       removed.push(l);
-    }
+    };
     chrome.notifications.onButtonClicked.addListener = function(l) {
       added.push(l);
-    }
+    };
     var doneit = false;
     var checkIfDone = function() {
       if (!added.length || doneit) {
@@ -62,7 +63,7 @@ describe('Extension functionality', function() {
         return;
       }
       doneit = true;
-      added[0]()
+      added[0]();
       data.type.should.equal('basic');
       data.title.should.equal('Ratings');
       done();

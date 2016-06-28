@@ -1,6 +1,6 @@
 /*global chrome, require */
 
-;(function() {
+(function() {
   'use strict';
   require('./source')(chrome);
 }());
