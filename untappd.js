@@ -1,3 +1,4 @@
+/* eslint no-console: 0 */
 'use strict';
 var config;
 try {
@@ -27,7 +28,6 @@ function search(opts, callback) {
       buffer += d;
     });
     res.on('end', function() {
-      console.log(buffer);
       var json;
       try {
         json = JSON.parse(buffer);
@@ -38,9 +38,6 @@ function search(opts, callback) {
       }
       callback(null, json);
     });
-  });
-  req.on('error', function(e) {
-    console.log(e);
   });
   req.end();
 }
