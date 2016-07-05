@@ -22,7 +22,7 @@
     "browserify": "^13.0.0",
     "cheerio": "^0.20.0",
     "coveralls": "^2.11.4",
-    "eslint": "^2.13.1",
+    "eslint": "^3.0.1",
     "gulp": "^3.9.0",
     "istanbul": "^0.4.1",
     "mocha": "^2.3.4",
