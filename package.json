@@ -19,7 +19,7 @@
   "homepage": "https://github.com/eiriksm/bear",
   "dependencies": {},
   "devDependencies": {
-    "browserify": "^13.0.0",
+    "browserify": "^13.1.0",
     "cheerio": "^0.20.0",
     "coveralls": "^2.11.4",
     "eslint": "^2.13.1",
