@@ -1,8 +1,12 @@
 'use strict';
-require('should');
+const path = require('path');
+const fs = require('fs');
 
+const PORT = 8899;
+
+require('should');
 var bear = require('../source');
-var cb, data;
+let cb, data;
 var chrome = {
   contextMenus: {
     create: function(obj) {
@@ -18,6 +22,14 @@ var chrome = {
 
 var added = [];
 var removed = [];
+let server = require('https').createServer({
+  key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.crt')),
+}, function(req, res) {
+  res.end('OK');
+});
+
+server.listen(PORT)
 
 describe('Extension functionality', function() {
   it('Should not error when started', function() {
@@ -42,7 +54,9 @@ describe('Extension functionality', function() {
   it('Should search for something on the tappd when triggered', function(done) {
     // Start it again, for coverage.
     data = undefined;
-    bear(chrome);
+    bear(chrome, {
+      untappdUrl: 'https://localhost:' + PORT
+    });
     this.timeout(10000);
     cb({selectionText: 'beer'});
     chrome.notifications.create = function(id, opts, callback) {

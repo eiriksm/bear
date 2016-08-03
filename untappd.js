@@ -1,12 +1,5 @@
 /* eslint no-console: 0 */
 'use strict';
-var config;
-try {
-  config = require('./config');
-}
-catch (err) {
-  console.log(err);
-}
 var util = require('util');
 var url = require('url');
 var https = require('https');
@@ -14,8 +7,12 @@ var https = require('https');
 module.exports = search;
 
 function search(opts, callback) {
+  let config = opts.config;
   if (!opts.url) {
     opts.url = 'https://api.untappd.com/v4/search/beer?q=';
+  }
+  if (config.untappdUrl) {
+    opts.url = config.untappdUrl;
   }
   opts.url += opts.name;
   opts.url += util.format('&client_id=%s&client_secret=%s&access_token=%s', config.client_id, config.client_secret, config.access_token);

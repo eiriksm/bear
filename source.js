@@ -6,7 +6,7 @@ var util = require('util');
 
 var untappdSearch = require('./untappd');
 
-var c;
+let c, conf;
 
 function createNotification(text) {
   var opt = {
@@ -55,7 +55,7 @@ function getBeer(text) {
         c.notifications.create(Date.now() + Math.random() + 'button', opt, function(id) {
           var listener = function(notifId) {
             if (notifId === id) {
-              untappdSearch({name: name}, function(e, r) {
+              untappdSearch({name: name, config: conf}, function(e, r) {
                 if (e) {
                   createNotification('Error occured. None found');
                   return;
@@ -102,9 +102,12 @@ function onSelectionClick(info) {
   getBeer(text);
 }
 
-module.exports = function(chrome) {
+module.exports = function(chrome, config) {
   if (!c) {
     c = chrome;
+  }
+  if (!conf) {
+    conf = config;
   }
   chrome.contextMenus.create({
     title: 'Search ratebeer',
