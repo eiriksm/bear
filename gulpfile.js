@@ -13,7 +13,6 @@ gulp.task('scripts', function() {
 
 gulp.task('watch', function() {
 
-  // Watch .scss files
   gulp.watch(['*.js', '!background.js'], ['scripts']);
 
 });
