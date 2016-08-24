@@ -20,7 +20,7 @@
   "dependencies": {},
   "devDependencies": {
     "browserify": "^13.1.0",
-    "cheerio": "^0.20.0",
+    "cheerio": "^0.22.0",
     "coveralls": "^2.11.12",
     "eslint": "^3.2.2",
     "gulp": "^3.9.1",
